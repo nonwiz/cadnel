@@ -1,0 +1,15 @@
+{env.DOMAIN} {
+    tls {
+        dns cloudflare {env.CF_API_TOKEN}
+    }
+
+    handle_path /api {
+        respond "From api"
+    }
+
+    handle_path /whoami {
+        reverse_proxy whoami:80
+    }
+
+    respond "Hello from {env.DOMAIN}!"
+}
