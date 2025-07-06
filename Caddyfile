@@ -1,6 +1,12 @@
 (app) {
-    handle_path /api {
-        respond "From api"
+    uri replace /api /api-v1
+    log {
+        output file /var/log/caddy/access.log
+        format console
+        level INFO
+    }
+    handle_path /api-v1 {
+        respond "From api v1"
     }
     handle_path /whoami {
         reverse_proxy whoami:80
@@ -12,9 +18,7 @@
     tls {
         dns cloudflare {env.CF_API_TOKEN}
     }
-
     import app
-
 }
 
 localhost {
